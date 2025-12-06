@@ -1,0 +1,118 @@
+{
+  "name": "ChatAnalysis",
+  "type": "object",
+  "properties": {
+    "file_name": {
+      "type": "string",
+      "description": "Name of the uploaded chat file"
+    },
+    "total_messages": {
+      "type": "number",
+      "description": "Total number of messages"
+    },
+    "date_range": {
+      "type": "string",
+      "description": "Date range of conversations"
+    },
+    "top_topics": {
+      "type": "array",
+      "description": "Most discussed topics",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "sentiment_breakdown": {
+      "type": "object",
+      "properties": {
+        "positive": {
+          "type": "number"
+        },
+        "neutral": {
+          "type": "number"
+        },
+        "negative": {
+          "type": "number"
+        }
+      }
+    },
+    "key_insights": {
+      "type": "array",
+      "description": "Key insights from analysis",
+      "items": {
+        "type": "string"
+      }
+    },
+    "improvement_suggestions": {
+      "type": "array",
+      "description": "Personalized improvement recommendations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "description": "Behavioral patterns detected",
+      "properties": {
+        "peak_activity_time": {
+          "type": "string"
+        },
+        "average_session_length": {
+          "type": "string"
+        },
+        "recurring_themes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "file_name"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}
