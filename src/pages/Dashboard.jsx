@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { apiClient } from "@/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import { MessageSquare, TrendingUp, Brain, Clock, Award } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   const { data: analyses, isLoading } = useQuery({
     queryKey: ['chat-analyses'],
-    queryFn: () => base44.entities.ChatAnalysis.list('-created_date'),
+    queryFn: () => apiClient.entities.ChatAnalysis.list('-created_date'),
     initialData: [],
   });
 

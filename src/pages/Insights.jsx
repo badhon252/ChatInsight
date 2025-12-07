@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { apiClient } from "@/api/apiClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Lightbulb, AlertCircle, CheckCircle, ArrowUpCircle, Sparkles, ChevronDown, ChevronUp, Loader2, Target, TrendingUp, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +16,7 @@ export default function Insights() {
 
   const { data: analyses, isLoading } = useQuery({
     queryKey: ['chat-analyses'],
-    queryFn: () => base44.entities.ChatAnalysis.list('-created_date'),
+    queryFn: () => apiClient.entities.ChatAnalysis.list('-created_date'),
     initialData: [],
   });
 
@@ -131,7 +131,7 @@ IMPORTANT GUIDELINES:
 • Connect suggestions to the topics they care most about (based on frequency)`;
 
 
-      const guidance = await base44.integrations.Core.InvokeLLM({
+      const guidance = await apiClient.integrations.Core.InvokeLLM({
         prompt: contextPrompt,
         response_json_schema: {
           type: "object",

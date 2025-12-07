@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { apiClient } from "@/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -32,7 +32,7 @@ export default function TopicDetail() {
     queryKey: ['chat-analysis', analysisId],
     queryFn: async () => {
       if (!analysisId) return null;
-      const analyses = await base44.entities.ChatAnalysis.list();
+      const analyses = await apiClient.entities.ChatAnalysis.list();
       return analyses.find(a => a.id === analysisId);
     },
     enabled: !!analysisId,

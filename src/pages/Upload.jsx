@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { base44 } from "@/api/base44Client";
+import { apiClient } from "@/api/apiClient";
 import { Upload as UploadIcon, FileText, AlertCircle, Sparkles, Shield, Zap, Users, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -169,7 +169,7 @@ IMPORTANT:
 
       setProgress(70);
 
-      const analysis = await base44.integrations.Core.InvokeLLM({
+      const analysis = await apiClient.integrations.Core.InvokeLLM({
         prompt: analysisPrompt,
         response_json_schema: {
           type: "object",
@@ -223,7 +223,7 @@ IMPORTANT:
       setProgress(90);
 
       // Save to database
-      const savedAnalysis = await base44.entities.ChatAnalysis.create({
+      const savedAnalysis = await apiClient.entities.ChatAnalysis.create({
         file_name: file.name,
         total_messages: messages.length,
         date_range: "Analyzed " + new Date().toLocaleDateString(),

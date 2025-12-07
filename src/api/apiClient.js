@@ -1,8 +1,8 @@
-// Client-side implementation of base44 client using localStorage and OpenAI API
+// Client-side implementation of API client using localStorage and OpenAI API
 
 const STORAGE_KEY = 'chat_analyses';
 
-export const base44 = {
+export const apiClient = {
   entities: {
     ChatAnalysis: {
       list: async (sort) => {
