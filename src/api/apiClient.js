@@ -52,8 +52,11 @@ export const apiClient = {
           throw new Error("Missing OpenAI API Key. Please add VITE_OPENAI_API_KEY to your .env file.");
         }
 
+        // Use proxy in development to avoid CORS
+        const baseUrl = import.meta.env.DEV ? '/api/openai' : 'https://api.openai.com/v1';
+
         try {
-          const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          const response = await fetch(`${baseUrl}/chat/completions`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -76,7 +79,10 @@ export const apiClient = {
           });
 
           if (!response.ok) {
-            const errorData = await response.json();
+            if (response.status === 413) {
+              throw new Error("Payload Too Large: The chat history is too big to analyze. Please try a smaller file.");
+            }
+            const errorData = await response.json().catch(() => ({}));
             throw new Error(`OpenAI API Error: ${errorData.error?.message || response.statusText}`);
           }
 

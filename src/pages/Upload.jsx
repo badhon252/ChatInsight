@@ -76,10 +76,10 @@ export default function Upload() {
       setProgress(50);
 
       // Sample messages intelligently for large datasets
-      const sampleMessages = (msgs, maxSamples = 50) => {
+      const sampleMessages = (msgs, maxSamples = 40) => { // Reduced from 50 to 40
         if (msgs.length <= maxSamples) return msgs;
         
-        const step = Math.max(1, Math.floor(msgs.length / maxSamples)); // Ensure step is at least 1
+        const step = Math.max(1, Math.floor(msgs.length / maxSamples));
         const sampled = [];
         for (let i = 0; i < msgs.length; i += step) {
           if (sampled.length >= maxSamples) break;
@@ -90,24 +90,24 @@ export default function Upload() {
 
       // Extract text content only, not full JSON
       const extractContent = (msg) => {
-        if (typeof msg === 'string') return msg.slice(0, 500);
+        const MAX_CHARS = 300; // Reduced from 500 to 300
+        if (typeof msg === 'string') return msg.slice(0, MAX_CHARS);
         if (msg && typeof msg === 'object') {
-          if (msg.content) return String(msg.content).slice(0, 500);
-          if (msg.text) return String(msg.text).slice(0, 500);
-          if (msg.message) return String(msg.message).slice(0, 500);
-          if (msg.value) return String(msg.value).slice(0, 500); // Common for some export formats
-          // Fallback for objects without direct text fields
+          if (msg.content) return String(msg.content).slice(0, MAX_CHARS);
+          if (msg.text) return String(msg.text).slice(0, MAX_CHARS);
+          if (msg.message) return String(msg.message).slice(0, MAX_CHARS);
+          if (msg.value) return String(msg.value).slice(0, MAX_CHARS);
           try {
             const jsonString = JSON.stringify(msg);
-            return jsonString.slice(0, 500);
+            return jsonString.slice(0, MAX_CHARS);
           } catch {
             return "[Unextractable content]";
           }
         }
-        return String(msg).slice(0, 500); // Last resort
+        return String(msg).slice(0, MAX_CHARS);
       };
 
-      const sampledMessages = sampleMessages(messages, 50);
+      const sampledMessages = sampleMessages(messages, 40);
       const messageContents = sampledMessages.map(extractContent).join("\n---\n");
 
       // Analyze with AI
